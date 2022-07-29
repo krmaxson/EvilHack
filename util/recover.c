@@ -117,8 +117,15 @@ char *argv[];
         && strcmp(dir, HACKDIR)
 #endif
             ) {
+        #ifdef __GNUC__
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wunused-result"
+        #endif
         (void) setgid(getgid());
         (void) setuid(getuid());
+        #ifdef __GNUC__
+            #pragma GCC diagnostic pop
+        #endif
     }
 #endif /* SECURE && !VMS */
 

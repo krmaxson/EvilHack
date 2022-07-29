@@ -319,11 +319,18 @@ int wt;
     linux_mapon();
 #endif
     if ((f = fork()) == 0) { /* child */
+    #ifdef __GNUC__
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wunused-result"
+    #endif
         (void) setgid(getgid());
         (void) setuid(getuid());
 #ifdef CHDIR
         (void) chdir(getenv("HOME"));
 #endif
+    #ifdef __GNUC__
+        #pragma GCC diagnostic pop
+    #endif
         return 1;
     }
     if (f == -1) { /* cannot fork */

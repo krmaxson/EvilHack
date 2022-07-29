@@ -489,8 +489,15 @@ boolean wr;
 #endif
         ) {
 #ifdef SECURE
+        #ifdef __GNUC__
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wunused-result"
+        #endif
         (void) setgid(getgid());
         (void) setuid(getuid()); /* Ron Wessels */
+        #ifdef __GNUC__
+            #pragma GCC diagnostic pop
+        #endif
 #endif
     } else {
         /* non-default data files is a sign that scores may not be
@@ -791,7 +798,14 @@ sys_random_seed()
 
     fptr = fopen(DEV_RANDOM, "r");
     if (fptr) {
+        #ifdef __GNUC__
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wunused-result"
+        #endif
         fread(&seed, sizeof (long), 1, fptr);
+        #ifdef __GNUC__
+            #pragma GCC diagnostic pop
+        #endif
         has_strong_rngseed = TRUE;  /* decl.c */
         no_seed = FALSE;
         (void) fclose(fptr);

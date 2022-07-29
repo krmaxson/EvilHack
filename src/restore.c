@@ -1320,8 +1320,15 @@ int fd;
 char *plbuf;
 {
     int pltmpsiz = 0;
+    #ifdef __GNUC__
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wunused-result"
+    #endif
     (void) read(fd, (genericptr_t) &pltmpsiz, sizeof(pltmpsiz));
     (void) read(fd, (genericptr_t) plbuf, pltmpsiz);
+    #ifdef __GNUC__
+        #pragma GCC diagnostic pop
+    #endif
     return;
 }
 

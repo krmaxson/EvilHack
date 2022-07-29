@@ -425,7 +425,14 @@ savestateinlock()
             return;
         }
 
+        #ifdef __GNUC__
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wunused-result"
+        #endif
         (void) read(fd, (genericptr_t) &hpid, sizeof hpid);
+        #ifdef __GNUC__
+            #pragma GCC diagnostic pop
+        #endif
         if (hackpid != hpid) {
             Sprintf(whynot, "Level #0 pid (%d) doesn't match ours (%d)!",
                     hpid, hackpid);
@@ -447,11 +454,25 @@ savestateinlock()
             done(TRICKED);
             return;
         }
+        #ifdef __GNUC__
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wunused-result"
+        #endif
         (void) write(fd, (genericptr_t) &hackpid, sizeof hackpid);
+        #ifdef __GNUC__
+            #pragma GCC diagnostic pop
+        #endif
         if (flags.ins_chkpt) {
             int currlev = ledger_no(&u.uz);
 
+            #ifdef __GNUC__
+                #pragma GCC diagnostic push
+                #pragma GCC diagnostic ignored "-Wunused-result"
+            #endif
             (void) write(fd, (genericptr_t) &currlev, sizeof currlev);
+            #ifdef __GNUC__
+                #pragma GCC diagnostic pop
+            #endif
             save_savefile_name(fd);
             store_version(fd);
             store_savefileinfo(fd);
